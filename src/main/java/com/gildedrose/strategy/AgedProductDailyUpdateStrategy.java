@@ -10,7 +10,7 @@ public class AgedProductDailyUpdateStrategy extends IncreasingQualityItemUpdate 
         } else {
             item.quality += 2;
         }
-        checkAndSetUpperBound(item);
+        checkAndSetQualityUpperBound(item);
         item.sellIn--;
     }
 }
