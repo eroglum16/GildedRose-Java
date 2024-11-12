@@ -1,13 +1,11 @@
-package com.gildedrose;
+package com.gildedrose.strategy;
 
-import com.gildedrose.strategy.*;
+import com.gildedrose.Item;
 
 import java.util.Arrays;
 import java.util.List;
 
-class GildedRose {
-    Item[] items;
-
+public class DailyUpdateStrategyContext {
     private final List<String> agedProductNames = Arrays.asList("Aged Brie");
     private final List<String> legendaryItemNames = Arrays.asList("Sulfuras, Hand of Ragnaros");
     private final List<String> backstagePassNames = Arrays.asList("Backstage passes to a TAFKAL80ETC concert");
@@ -16,25 +14,22 @@ class GildedRose {
     private final DailyUpdateStrategy legendaryItemUpdateStrategy;
     private final DailyUpdateStrategy backstagePassUpdateStrategy;
     private final DailyUpdateStrategy regularItemUpdateStrategy;
-    public GildedRose(Item[] items) {
-        this.items = items;
+    public DailyUpdateStrategyContext() {
         this.agedProductDailyUpdateStrategy = new AgedProductDailyUpdateStrategy();
         this.legendaryItemUpdateStrategy = new LegendaryItemUpdateStrategy();
         this.backstagePassUpdateStrategy = new BackstagePassUpdateStrategy();
         this.regularItemUpdateStrategy = new RegularItemUpdateStrategy();
     }
 
-    public void updateQuality() {
-        for (Item item : items) {
-            if (this.agedProductNames.contains(item.name)){
-                this.agedProductDailyUpdateStrategy.update(item);
-            } else if (this.legendaryItemNames.contains(item.name)){
-                this.legendaryItemUpdateStrategy.update(item);
-            } else if (this.backstagePassNames.contains(item.name)){
-                this.backstagePassUpdateStrategy.update(item);
-            } else {
-                this.regularItemUpdateStrategy.update(item);
-            }
+    public void execute(Item item){
+        if (this.agedProductNames.contains(item.name)){
+            this.agedProductDailyUpdateStrategy.update(item);
+        } else if (this.legendaryItemNames.contains(item.name)){
+            this.legendaryItemUpdateStrategy.update(item);
+        } else if (this.backstagePassNames.contains(item.name)){
+            this.backstagePassUpdateStrategy.update(item);
+        } else {
+            this.regularItemUpdateStrategy.update(item);
         }
     }
 }
