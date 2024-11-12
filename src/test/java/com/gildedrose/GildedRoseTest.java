@@ -159,6 +159,66 @@ class GildedRoseTest {
         assertItem(app.items[0], -1, 0);
     }
 
+    @Test
+    void conjuredItemsShouldDegradeTwiceAsFast(){
+        Item[] items = new Item[] {
+            new Item("Conjured Mana Cake", 3, 5),
+            new Item("Conjured Mana Cake", 10, 10),
+            new Item("Conjured Mana Cake", 1, 7),
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertItem(items[0], 2, 3);
+        assertItem(items[1], 9, 8);
+        assertItem(items[2], 0, 5);
+    }
+
+    @Test
+    void givenSellDatePassed_conjuredItemsShouldDegradeFourTimesAsFast(){
+        Item[] items = new Item[] {
+            new Item("Conjured Mana Cake", 1, 12),
+            new Item("Conjured Mana Cake", 0, 10),
+            new Item("Conjured Mana Cake", -1, 8),
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+        assertItem(items[0], 0, 10);
+        assertItem(items[1], -1, 6);
+        assertItem(items[2], -2, 4);
+
+        app.updateQuality();
+        assertItem(items[0], -1, 6);
+        assertItem(items[1], -2, 2);
+        assertItem(items[2], -3, 0);
+    }
+
+    @Test
+    void qualityOfAConjuredItemIsNeverNegative(){
+        Item[] items = new Item[] {
+            new Item("Conjured Mana Cake", 4, 2),
+            new Item("Conjured Mana Cake", 4, 1),
+            new Item("Conjured Mana Cake", 4, 0),
+
+            new Item("Conjured Mana Cake", 1, 0),
+            new Item("Conjured Mana Cake", 0, 1),
+            new Item("Conjured Mana Cake", -1, 3),
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertItem(items[0], 3, 0);
+        assertItem(items[1], 3, 0);
+        assertItem(items[2], 3, 0);
+
+        assertItem(items[3], 0, 0);
+        assertItem(items[4], -1, 0);
+        assertItem(items[5], -2, 0);
+    }
+
     private void assertItem(Item item, int expectedSellIn, int expectedQuality) {
         assertEquals(expectedSellIn, item.sellIn);
         assertEquals(expectedQuality, item.quality);

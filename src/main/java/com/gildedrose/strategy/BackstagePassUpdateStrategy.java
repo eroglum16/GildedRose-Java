@@ -21,7 +21,7 @@ public class BackstagePassUpdateStrategy extends IncreasingQualityItemUpdate imp
             item.quality++;
         }
 
-        checkAndSetUpperBound(item);
+        checkAndSetQualityUpperBound(item);
 
         item.sellIn--;
     }
