@@ -49,17 +49,50 @@ class GildedRoseTest {
     }
 
     @Test
-    void qualityIsNeverOver50(){
-        Item[] items = new Item[] { new Item("Aged Brie", 2, 49) };
+    void qualityIsNeverOver50AgedBrie(){
+        Item[] items = new Item[] {
+            new Item("Aged Brie", 2, 49),
+            new Item("Aged Brie", 0, 49),
+        };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertItem(app.items[0], 1, 50);
+        assertItem(app.items[1], -1, 50);
 
         app.updateQuality();
         assertItem(app.items[0], 0, 50);
+        assertItem(app.items[1], -2, 50);
 
         app.updateQuality();
         assertItem(app.items[0], -1, 50);
+        assertItem(app.items[1], -3, 50);
+    }
+    @Test
+    void qualityIsNeverOver50BackstagePasses(){
+        Item[] items = new Item[] {
+            new Item("Backstage passes to a TAFKAL80ETC concert", 4, 45),
+            new Item("Backstage passes to a TAFKAL80ETC concert", 8, 47),
+            new Item("Backstage passes to a TAFKAL80ETC concert", 13, 49),
+            new Item("Backstage passes to a TAFKAL80ETC concert", 11, 50),
+        };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertItem(app.items[0], 3, 48);
+        assertItem(app.items[1], 7, 49);
+        assertItem(app.items[2], 12, 50);
+        assertItem(app.items[3], 10, 50);
+
+        app.updateQuality();
+        assertItem(app.items[0], 2, 50);
+        assertItem(app.items[1], 6, 50);
+        assertItem(app.items[2], 11, 50);
+        assertItem(app.items[3], 9, 50);
+
+        app.updateQuality();
+        assertItem(app.items[0], 1, 50);
+        assertItem(app.items[1], 5, 50);
+        assertItem(app.items[2], 10, 50);
+        assertItem(app.items[3], 8, 50);
     }
 
     @Test

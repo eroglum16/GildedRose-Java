@@ -4,7 +4,5 @@ import com.gildedrose.Item;
 
 public class LegendaryItemUpdateStrategy implements DailyUpdateStrategy{
     @Override
-    public void update(Item item) {
-        return;
-    }
+    public void update(Item item) {}
 }
